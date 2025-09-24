@@ -1,5 +1,5 @@
-import express from "express";
-import connectDB from "./utils/db.js";
+import express ,{urlencoded}from "express";
+import connectDB from "./db/connection.js";
 import dotenv from"dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -21,7 +21,8 @@ const _dirname=path.resolve();
 
 //middleware
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(urlencoded({extended:true}));
 app.use(cookieParser());
 const corsOptions={
       origin:'http://localhost:5173',
@@ -35,7 +36,7 @@ app.use("/api/v1/company",companyRoute);
 app.use("/api/v1/job",jobRoute);
 app.use("/api/v1/application",applicationRoute);
 
-app.use(express.static(path.join(_dirname, "frontend/dist")));
+app.use(express.static(path.join(_dirname, "/frontend/dist")));
 app.get('*',(_,res)=>{
     res.sendFile(path.resolve(_dirname,"frontend","dist","index.html"));
 });
