@@ -1,5 +1,4 @@
-import { setSingleCompany } from '@/redux/CompanySlice'
-import { setAllJobs } from '@/redux/jobSlice'
+import { setSingleCompany } from '@/redux/companySlice'
 import { COMPANY_API_END_POINT } from '@/utils/constant'
 import axios from 'axios'
 import { useEffect } from 'react'
@@ -23,4 +22,4 @@ const useGetCompanyById = (companyId) => {
     },[companyId,dispatch])
 }
 
-export default useGetCompanyById
+export default useGetCompanyById;

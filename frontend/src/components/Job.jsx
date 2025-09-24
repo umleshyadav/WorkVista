@@ -1,13 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from './ui/button'
 import { Bookmark } from 'lucide-react'
 import { Avatar, AvatarImage } from './ui/avatar'
 import { Badge } from './ui/badge'
 import { useNavigate } from 'react-router-dom'
+import  {ApplyJobDialog}  from './ApplyJobDialog'
 
 const Job = ({job}) => {
     const navigate=useNavigate();
-    //const jobId=".jcdc j.ccwc";
+    const [open,setOpen]=useState(false);
 
     const daysAgoFunction=(mongodbTime)=>{
         const createdAt=new Date(mongodbTime);
@@ -48,6 +49,9 @@ const Job = ({job}) => {
             <div className='flex items-center gap-4 mt-4'>
                 <Button onClick={()=>navigate(`/description/${job?._id}`)} variant="outline">Details</Button>
                 <Button className="bg-[#7209b7]">Save For Later</Button>
+            </div>
+            <div>
+                <ApplyJobDialog open={open} setOpen={setOpen}/>
             </div>
         </div>
     )

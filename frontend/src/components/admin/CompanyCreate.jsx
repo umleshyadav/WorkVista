@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../shared/Navbar'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
@@ -8,12 +8,14 @@ import axios from 'axios'
 import { COMPANY_API_END_POINT } from '@/utils/constant'
 import { toast } from 'sonner'
 import { useDispatch } from 'react-redux'
-import { setSingleCompany } from '@/redux/CompanySlice'
+import { setSingleCompany } from '@/redux/companySlice'
 
 const CompanyCreate = () => {
     const navigate = useNavigate();
-    const [companyName, setCompanyName] = useState();
+    const [companyName, setCompanyName] = useState("");
+     const [disable, setDisable] = useState(true);
     const dispatch = useDispatch();
+    
     const registerNewCompany = async () => {
         try {
             const res = await axios.post(`${COMPANY_API_END_POINT}/register`, {companyName}, {
@@ -30,8 +32,17 @@ const CompanyCreate = () => {
             }
         } catch (error) {
             console.log(error);
+            toast.error(error.response?.data?.message);
         }
-    }
+    };
+
+    useEffect(() => {
+        if (companyName.trim() !== "") {
+            setDisable(false);
+        }else{
+            setDisable(true);
+        }
+    }, [companyName])
     return (
         <div>
             <Navbar />
@@ -42,7 +53,7 @@ const CompanyCreate = () => {
                 </div>
 
                 <Label>Company Name</Label>
-                <Input
+                <Input value={companyName}
                     type="text"
                     className="my-2"
                     placeholder="JobHunt, Microsoft etc."

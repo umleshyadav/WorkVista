@@ -5,6 +5,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { Edit2, Eye, MoreHorizontal } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import {motion} from "framer-motion"
 
 const AdminJobsTable = () => {
      const {allAdminJobs,searchJobByText}=useSelector(store=>store.job)
@@ -35,9 +36,13 @@ const AdminJobsTable = () => {
                 </TableHeader>
                 <TableBody>
                     {
-                        filterJobs?.map((job) => (
-                            <tr>
-                               
+                       filterJobs && filterJobs?.map((job) => (
+                            <motion.tr
+                        initial={{ x: -100 }}
+                        animate={{ x: 0 }}
+                        exit={{ x: -100 }}
+                        transition={{ duration: 0.5 }}
+                        key={job?._id}>
                                 <TableCell>{job?.company?.name}</TableCell>
                                 <TableCell>{job?.title}</TableCell>
                                 <TableCell>{job.createdAt.split("T")[0]}</TableCell>
@@ -56,7 +61,7 @@ const AdminJobsTable = () => {
                                         </PopoverContent>
                                     </Popover>
                                 </TableCell>
-                            </tr>
+                            </motion.tr>
 
                         ))
                     }

@@ -4,12 +4,15 @@ import FilterCard from './FilterCard'
 import Job from './Job';
 import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
-
-// const jobsArray = [1, 2, 3, 4, 5, 6, 7, 8];
+import Footer from './shared/Footer';
+import Jobnotfound from './Jobnotfound';
+import { useNavigate } from 'react-router-dom';
 
 const Jobs = () => {
+    const {user}=useSelector((store)=>store.auth);
     const { allJobs, searchedQuery } = useSelector(store => store.job);
     const [filterJobs, setFilterJobs] = useState(allJobs);
+    const navigate=useNavigate();
 
     useEffect(() => {
         if (searchedQuery) {
@@ -24,21 +27,27 @@ const Jobs = () => {
         }
     }, [allJobs, searchedQuery]);
 
+    useEffect(()=>{
+        if(user?.role==='recruiter'){
+            navigate("/admin/jobs");
+        }
+    })
+
    
     return (
-        <div>
+        <div className='bg-gary-100 h-screen'>
             <Navbar/>
             <div className='max-w-7xl mx-auto mt-5'>
                 <div className='flex gap-5'>
-                    <div className='w-20%'>
+                    <div className='w-[20%]'>
                         <FilterCard />
                     </div>
                     {
-                        filterJobs.length <= 0 ? <span>Job not found</span> : (
-                            <div className='flex-1 h-[88vh] overflow-y-auto pb-5'>
+                        filterJobs?.length <= 0 ? <Jobnotfound/> : (
+                            <div className='flex-1 h-[88vh] overflow-y-auto no-scrollbar pb-5'>
                                 <div className='grid grid-cols-3 gap-4'>
                                     {
-                                        filterJobs.map((job) => (
+                                      filterJobs &&  filterJobs.map((job) => (
                                             <motion.div
                                              initial={{ opacity: 0, x: 100 }}
                                              animate={{ opacity: 1, x: 0 }}

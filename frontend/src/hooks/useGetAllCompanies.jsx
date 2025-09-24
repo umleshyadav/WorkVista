@@ -1,4 +1,4 @@
-import { setCompanies } from '@/redux/CompanySlice'
+import { setCompanies } from '@/redux/companySlice'
 import { COMPANY_API_END_POINT } from '@/utils/constant'
 import axios from 'axios'
 import { useEffect } from 'react'
@@ -21,4 +21,4 @@ const useGetAllCompanies = () => {
     },[])
 }
 
-export default useGetAllCompanies
+export default useGetAllCompanies;

@@ -3,7 +3,8 @@ import Navbar from '../shared/Navbar'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { setLoading } from '@/redux/authSlice'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 import axios from 'axios'
 import { JOB_API_END_POINT } from '@/utils/constant'
@@ -11,7 +12,6 @@ import { toast } from 'sonner'
 import { useNavigate } from 'react-router-dom'
 import { Loader2 } from 'lucide-react'
 
-const companyArray = [];
 
 const PostJob = () => {
     const [input, setInput] = useState({
@@ -26,6 +26,7 @@ const PostJob = () => {
         companyId: ""
     });
     const [loading, setLoading]= useState(false);
+    const dispatch=useDispatch();
     const navigate = useNavigate();
 
     const { companies } = useSelector(store => store.company);
@@ -53,9 +54,10 @@ const PostJob = () => {
                 navigate("/admin/jobs");
             }
         } catch (error) {
+            console.log(error);
             toast.error(error.response.data.message);
         } finally{
-            setLoading(false);
+            dispatch(setLoading(false));
         }
     }
 

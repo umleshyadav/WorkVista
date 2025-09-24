@@ -6,6 +6,7 @@ import { APPLICATION_API_END_POINT } from '@/utils/constant';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAllApplicants } from '@/redux/applicationSlice';
+import { toast } from 'sonner';
 
 const Applicants = () => {
     const params = useParams();
@@ -19,6 +20,7 @@ const Applicants = () => {
                 dispatch(setAllApplicants(res.data.job));
             } catch (error) {
                 console.log(error);
+                toast.error(error.response.data.message);
             }
         }
         fetchAllApplicants();
