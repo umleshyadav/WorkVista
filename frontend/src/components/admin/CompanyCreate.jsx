@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { toast } from 'sonner'
 import { useDispatch } from 'react-redux'
-import { setSingleCompany } from '@/redux/companySlice'
+import { setSingleCompany } from '@/redux/companySlice.js'
 
 const CompanyCreate = () => {
     const navigate = useNavigate();

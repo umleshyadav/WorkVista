@@ -6,7 +6,6 @@ import { Edit2, MoreHorizontal } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { motion } from "framer-motion"
-import store from '@/redux/store'
 
 const CompaniesTable = () => {
     const { companies, searchCompanyByText } = useSelector(store => store.company);
@@ -14,7 +13,7 @@ const CompaniesTable = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const filteredCompany = companies?.length >= 0 && companies.filter((company) => {
+        const filteredCompany = companies && companies.filter((company) => {
             if (!searchCompanyByText) {
                 return true;
             };
@@ -70,4 +69,4 @@ const CompaniesTable = () => {
     )
 }
 
-export default CompaniesTable
+export default CompaniesTable;
