@@ -5,24 +5,25 @@ import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { Edit2, MoreHorizontal } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { motion } from "framer-motion"
 
 const CompaniesTable = () => {
+
+    console.log("Companies:", companies);
     const { companies, searchCompanyByText } = useSelector(store => store.company);
     const [filterCompany, setFilterCompany] = useState(companies);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const filteredCompany = companies && companies.filter((company) => {
-            if (!searchCompanyByText) {
-                return true;
+    useEffect(()=>{
+        const filteredCompany = companies.length >= 0 && companies.filter((company)=>{
+            if(!searchCompanyByText){
+                return true
             };
             return company?.name?.toLowerCase().includes(searchCompanyByText.toLowerCase());
 
         });
         setFilterCompany(filteredCompany);
-    }, [companies, searchCompanyByText])
+    },[companies,searchCompanyByText])
     return (
+        <div>
             <Table>
                 <TableCaption>A list of your recent registered companies</TableCaption>
                 <TableHeader>
@@ -36,37 +37,33 @@ const CompaniesTable = () => {
                 <TableBody>
                     {
                         filterCompany?.map((company) => (
-                            <motion.tr
-                                initial={{ x: -100 }}
-                                animate={{ x: 0 }}
-                                exit={{ x: -100 }}
-                                transition={{ duration: 0.5 }}
-                                key={company._id}>
+                            <tr>
                                 <TableCell>
                                     <Avatar>
-                                        <AvatarImage src={company?.logo} />
+                                        <AvatarImage src={company.logo}/>
                                     </Avatar>
                                 </TableCell>
-                                <TableCell>{company?.name}</TableCell>
-                                <TableCell>{company?.createdAt.split("T")[0]}</TableCell>
-                                <TableCell className="float-right cursor-pointer">
+                                <TableCell>{company.name}</TableCell>
+                                <TableCell>{company.createdAt.split("T")[0]}</TableCell>
+                                <TableCell className="text-right cursor-pointer">
                                     <Popover>
                                         <PopoverTrigger><MoreHorizontal /></PopoverTrigger>
                                         <PopoverContent className="w-32">
-                                            <div onClick={() => { navigate(`/admin/companies/${company._id}`);}} className='flex items-center gap-2 w-fit cursor-pointer'>
+                                            <div onClick={()=> navigate(`/admin/companies/${company._id}`)} className='flex items-center gap-2 w-fit cursor-pointer'>
                                                 <Edit2 className='w-4' />
                                                 <span>Edit</span>
                                             </div>
                                         </PopoverContent>
                                     </Popover>
                                 </TableCell>
-                            </motion.tr>
+                            </tr>
 
                         ))
                     }
                 </TableBody>
             </Table>
+        </div>
     )
 }
 
-export default CompaniesTable;
+export default CompaniesTable

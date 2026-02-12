@@ -3,8 +3,7 @@ import Navbar from '../shared/Navbar'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
-import { useDispatch, useSelector } from 'react-redux'
-import { setLoading } from '@/redux/authSlice'
+import {  useSelector } from 'react-redux'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 import axios from 'axios'
 import { toast } from 'sonner'
@@ -25,7 +24,6 @@ const PostJob = () => {
         companyId: ""
     });
     const [loading, setLoading]= useState(false);
-    const dispatch=useDispatch();
     const navigate = useNavigate();
 
     const { companies } = useSelector(store => store.company);
@@ -56,7 +54,7 @@ const PostJob = () => {
             console.log(error);
             toast.error(error.response.data.message);
         } finally{
-            dispatch(setLoading(false));
+            setLoading(false);
         }
     }
 
@@ -147,7 +145,7 @@ const PostJob = () => {
                             />
                         </div>
                         {
-                            companies.length > 0 && (
+                            companies?.length > 0 && (
                                 <Select onValueChange={selectChangeHandler}>
                                     <SelectTrigger className="w-[180px]">
                                         <SelectValue placeholder="Select a Company" />
@@ -172,7 +170,7 @@ const PostJob = () => {
                         loading ? <Button className="w-full my-4"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button> : <Button type="submit" className="w-full my-4">Post New Job</Button>
                     }
                     {
-                        companies.length === 0 && <p className='text-xs text-red-600 font-bold text-center my-3'>*Please register a company first, before posting a jobs</p>
+                        companies?.length === 0 && <p className='text-xs text-red-600 font-bold text-center my-3'>*Please register a company first, before posting a jobs</p>
                     }
                 </form>
             </div>
