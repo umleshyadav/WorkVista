@@ -7,8 +7,9 @@ import { Button } from '../ui/button'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import axios from 'axios'
+import { USER_API_END_POINT } from '@/utils/constant'
 import { useDispatch, useSelector } from 'react-redux'
-import { setLoading } from '@/redux/authSlice'
+import { setLoading } from '../../redux/authSlice'
 import { Loader2 } from 'lucide-react'
 
 const Signup = () => {
@@ -45,7 +46,7 @@ const Signup = () => {
 
         try {
             dispatch(setLoading(true));
-            const res = await axios.post(`https://work-vista.onrender.com/api/v1/user/register`, formData, {
+            const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
                 headers: { 'Content-Type': "multipart/form-data" },
                 withCredentials: true,
             });
@@ -151,15 +152,15 @@ const Signup = () => {
           </div>
           {
             loading ? (
-              <Button className='w-full my-4'>
-                <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                Please wait
+              <Button className='w-full my-4'>{" "}
+                <Loader2 className='mr-2 h-4 w-4 animate-spin' />{" "}
+                Please wait{" "}
               </Button>
             ) : (
               <Button type='submit' className='w-full my-4'>Sign Up</Button>
             )
           }
-          <span className='text-sm'>Already have an account? <Link to={"/login"} className='text-blue-500 cursor-pointer underline'>Login</Link></span>
+          <span className='text-sm'>Already have an account?{" "} <Link to={"/login"} className='text-blue-500 cursor-pointer underline'>Login</Link></span>
         </form>
       </div>
     </>

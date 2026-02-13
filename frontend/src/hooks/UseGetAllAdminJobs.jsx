@@ -1,4 +1,5 @@
-import { setAdminJobs } from '@/redux/jobSlice'
+import { setAdminJobs } from '../redux/jobSlice'
+import { JOB_API_END_POINT } from '@/utils/constant'
 import axios from 'axios'
 import { useEffect } from 'react'
 import { useDispatch} from 'react-redux'
@@ -9,7 +10,7 @@ const useGetAllAdminJobs = () => {
     useEffect(()=>{
         const fetchAllAdminJobs = async () => {
             try {
-                const res = await axios.get(`https://work-vista.onrender.com/api/v1/job/getadminjobs`,{withCredentials:true});
+                const res = await axios.get(`${JOB_API_END_POINT}/getadminjobs`,{withCredentials:true});
                 if(res.data.success){
                     dispatch(setAdminJobs(res.data.jobs));
                 }

@@ -40,7 +40,7 @@ export const getCompany = async (req, res) => {
         const userId = req.id;
         const companies = await Company.find({ userId });
         if (!companies) return res.status(404).json({ message: "company not found", success: false });
-        return res.status(200).json({ companies });
+        return res.status(200).json({ companies,success:true });
     } catch (error) {
         console.log(error);
     }
@@ -62,6 +62,12 @@ export const updateCompanyInformation = async (req, res) => {
     try {
         const { name, description, website, location } = req.body;
         const file = req.file; 
+        if (!file) {
+            return res.status(400).json({
+                success: false,
+                message: "Please upload a logo file"
+            });
+        }
         const fileUri = getDataUri(file);
         const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
         const logo = cloudResponse.secure_url;

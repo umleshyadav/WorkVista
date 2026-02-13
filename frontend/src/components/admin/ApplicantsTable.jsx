@@ -4,6 +4,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { MoreHorizontal } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { toast } from 'sonner';
+import { APPLICATION_API_END_POINT } from '@/utils/constant';
 import axios from 'axios';
 import {motion} from "framer-motion"
 
@@ -14,7 +15,7 @@ const ApplicantsTable = () => {
 
     const statusHandler = async (status, id) => {
         try {
-            const res = await axios.post(`https://work-vista.onrender.com/api/v1/application/status/${id}/update`, { status },{withCredentials: true});
+            const res = await axios.post(`${APPLICATION_API_END_POINT}/status/${id}/update`, { status },{withCredentials: true});
             if (res.data.success) {
                 toast.success(res.data.message);
             }
